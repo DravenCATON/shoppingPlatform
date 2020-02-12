@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+	
+<hibernate-configuration>
+	<!-- 记住：先配置SessionFactory标签，一个数据库对应一个SessionFactory标签 -->
+	<session-factory>
+		<!-- 数据库方言 -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		<!-- 可选配置 -->
+		<!-- 显示SQL语句，在控制台显示 -->
+		<property name="hibernate.show_sql">true</property>
+		<!-- 格式化SQL语句 -->
+		<property name="hibernate.format_sql">true</property>
+		<!-- 生成数据库的表结构 update: 如果没有表结构,创建表结构。如果存在，不会创建,只会添加数据 -->
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		
+		<mapping resource="com/sdu/entity/product.hbm.xml"/>
+		<mapping resource="com/sdu/entity/user.hbm.xml"/>
+		<mapping resource="com/sdu/entity/order.hbm.xml"/>
+		<mapping resource="com/sdu/entity/shoppingCar.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>

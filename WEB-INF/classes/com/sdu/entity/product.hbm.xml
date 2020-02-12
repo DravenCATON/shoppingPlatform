@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sdu.entity.Product" table="201800301007product">
+        <!--一,主键属性  -->
+        <id name="pid" column="pid">
+            <generator class="native"></generator>
+        </id>
+        <!-- 二,其它属性 -->
+        <property name="name" column="name"/>
+    	<property name="price" column="price"/>
+
+		<many-to-one name="user" class="com.sdu.entity.User" column="uid" lazy="false"/>
+ 		
+ 		<set name="setOrder2" inverse="true" batch-size="20" lazy="false">
+            <key column="pid"/>
+            <one-to-many class="com.sdu.entity.Order"/>
+        </set>
+    </class>
+</hibernate-mapping>

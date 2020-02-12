@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sdu.entity.ShoppingCar" table="201800301007shoppingCar">
+		<!--一,主键属性  -->
+        <id name="sid" column="sid">
+            <generator class="native"></generator>
+        </id>
+        <!-- 二,其它属性 -->
+        <property name="productNumber" column="productNumber"/>
+		
+		<many-to-one name="user" column="userId" lazy="false"></many-to-one>
+		<many-to-one name="product" column="productId" unique="true" lazy="false"></many-to-one>
+	</class>
+</hibernate-mapping>

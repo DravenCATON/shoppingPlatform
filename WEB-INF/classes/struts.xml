@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.multipart.saveDir" value="/buffer"></constant>
+	<!-- 文件大小限制：10M -->
+	<constant name="struts.multipart.maxSize" value="10485760"/>
+	
+	
+	<package name="myPackage" extends="struts-default" namespace="/">
+		<action name="index" class="indexAction" method="index">
+			<result name="index">index.jsp</result>
+		</action>
+		
+		<action name="register" class="registerAction" method="register">
+			<result name="register">myself.jsp</result>
+		</action>
+		
+		<action name="login" class="loginAction" method="login">
+			<result name="success">index.jsp</result>
+		</action>
+		
+		<action name="searchProduct" class="searchAction" method="searchProduct">
+			<result name="searchProduct">productList.jsp</result>
+		</action>
+		
+		<action name="showProduct" class="showProductAction" method="showProduct">
+			<result name="showProduct">product.jsp</result>
+		</action>
+		
+		
+		
+		<action name="updateUser" class="updateUserAction" method="updateUser">
+			<!-- 修改文件上传参数，配置拦截器的参数 -->
+            <!-- struts2内置的FileUploadInterceptor拦截器 -->
+            <!-- fileUpload:默认包下声明的拦截器 -->
+            <interceptor-ref name="fileUpload">
+                     <!-- 文件大小限制：10M -->
+                     <param name="maximumSize">10485760</param>
+                     <!-- 文件类型限制：mime类型 -->
+                     <!-- 允许类型 -->
+                     <!-- <param name="allowedTypes">image/jpg,image/jpeg,image/gif</param> -->
+                     <!-- 允许的文件后缀 -->
+                     <param name="allowedExtensions">jpg,jpeg,gif,png</param>
+            </interceptor-ref>
+            <!-- 继承系统默认拦截器，不继承则获取不了文件信息 -->
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <!-- 定义服务器目录，接收文件 -->
+            <param name="savePath">f:/myProject/buffer/</param>
+            <!-- 定义错误视图INPUT -->
+            <result name="input">index.jsp</result>
+			<result name="updateUser">myself.jsp</result>
+		</action>
+		
+		<action name="sendProduct" class="sendProductAction" method="sendProduct">
+			<!-- 修改文件上传参数，配置拦截器的参数 -->
+            <!-- struts2内置的FileUploadInterceptor拦截器 -->
+            <!-- fileUpload:默认包下声明的拦截器 -->
+            <interceptor-ref name="fileUpload">
+                     <!-- 文件类型限制：mime类型 -->
+                     <!-- 允许类型 -->
+                     <!-- <param name="allowedTypes">image/jpg,image/jpeg,image/gif</param> -->
+                     <!-- 允许的文件后缀 -->
+                     <param name="allowedExtensions">jpg,jpeg,gif,png</param>
+            </interceptor-ref>
+            <!-- 继承系统默认拦截器，不继承则获取不了文件信息 -->
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <!-- 定义服务器目录，接收文件 -->
+            <param name="savePath">f:/myProject/shopping/src/main/webapp/buffer</param>
+            <!-- 定义错误视图INPUT -->
+            <result name="input">index.jsp</result>
+			<result name="sendProduct">sale.jsp</result>
+		</action>
+	</package>
+
+	<package name="ajaxPackage" extends="struts-default,json-default" namespace="/">
+		<action name="changePassword" class="changePasswordAction" method="changePassword">
+   			<result name="changePassword" type="json">
+   				<param name="root">isSuccess</param>
+   			</result>
+   		</action>
+   		<action name="getUser" class="getUserAction" method="getUser">
+   			<result name="getUser" type="json">
+   				<param name="root">userString</param>
+   			</result>
+   		</action>
+   		<action name="getUserByOrderId" class="getUserByOrderIdAction" method="getUserByOrderId">
+   			<result name="getUserByOrderId" type="json">
+   				<param name="root">userString</param>
+   			</result>
+   		</action>
+   		<action name="addToShoppingCar" class="addToShoppingCarAction" method="addToShoppingCar">
+   			<result name="addToShoppingCar" type="json">
+   				<param name="root">count</param>
+   			</result>
+		</action>
+		<action name="*" class="shoppingCarHandlerAction" method="{1}">
+   			<result name="changeNumber" type="json">
+   				<param name="root">pid</param>
+   			</result>
+   			<result name="deleteShoppingCar" type="json">
+   				<param name="root">pid</param>
+   			</result>
+   		</action>
+   		<action name="clearShoppingCar" class="clearShoppingCarAction" method="clearShoppingCar">
+   			<result name="clearShoppingCar" type="json">
+   				<param name="root">userId</param>
+   			</result>
+   		</action>
+   		<action name="received" class="receivedAction" method="received">
+   			<result name="received" type="json">
+   				<param name="root">orderId</param>
+   			</result>
+   		</action>
+   		
+	</package>
+</struts>

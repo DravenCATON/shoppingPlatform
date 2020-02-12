@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xmlns:context="http://www.springframework.org/schema/context"
+	    xmlns:aop="http://www.springframework.org/schema/aop"
+	    xmlns:tx="http://www.springframework.org/schema/tx"
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/aop/spring-aop.xsd
+	    http://www.springframework.org/schema/tx
+	    http://www.springframework.org/schema/tx/spring-tx.xsd">
+	    
+	<!--配置c3p0数据源 -->
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://202.194.14.120:3306/webteach?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false"/>
+		<property name="user" value="webteach" />
+		<property name="password" value="webteach" />
+	</bean>
+	<!--配置session工厂 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocations"
+			value="classpath:hibernate.cfg.xml" />
+	</bean>
+	
+	<!-- 创建hibernateTemplate，写hql语句 -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <!-- 事务管理与事务注解扫描 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <!--注入sessionFactory-->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+
+    
+    
+    
+    
+
+    <bean id="indexAction" class="com.sdu.action.IndexAction" scope="prototype">
+    </bean>
+    <bean id="registerAction" class="com.sdu.action.RegisterAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="loginAction" class="com.sdu.action.LoginAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="changePasswordAction" class="com.sdu.action.ChangePasswordAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="getUserAction" class="com.sdu.action.GetUserAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="sendProductAction" class="com.sdu.action.SendProductAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="updateUserAction" class="com.sdu.action.UpdateUserAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="searchAction" class="com.sdu.action.searchAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="showProductAction" class="com.sdu.action.showProductAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="addToShoppingCarAction" class="com.sdu.action.AddToShoppingCarAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="shoppingCarHandlerAction" class="com.sdu.action.ShoppingCarHandlerAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="clearShoppingCarAction" class="com.sdu.action.ClearShoppingCarAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="getUserByOrderIdAction" class="com.sdu.action.getUserByOrderIdAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    <bean id="receivedAction" class="com.sdu.action.ReceivedAction" scope="prototype">
+    	<property name="myService" ref="myService"></property>
+    </bean>
+    
+    <bean id="myService" class="com.sdu.service.MyService" >
+    	<property name="userDao" ref="userDao"></property>
+    	<property name="productDao" ref="productDao"></property>
+    	<property name="shoppingCarDao" ref="shoppingCarDao"></property>
+    	<property name="orderDao" ref="orderDao"></property>
+    </bean>  
+    <bean id="userDao" class="com.sdu.dao.UserDao">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+    </bean>
+    <bean id="productDao" class="com.sdu.dao.ProductDao">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+    </bean> 
+    <bean id="shoppingCarDao" class="com.sdu.dao.ShoppingCarDao">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+    </bean> 
+    <bean id="orderDao" class="com.sdu.dao.OrderDao">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+    </bean>
+    
+</beans>

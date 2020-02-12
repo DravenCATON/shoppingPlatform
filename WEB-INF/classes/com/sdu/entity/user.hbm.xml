@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sdu.entity.User" table="201800301007user">
+        <!--一,主键属性  -->
+        <id name="uid" column="uid">
+            <generator class="native"></generator>
+        </id>
+        <!-- 二,其它属性 -->
+        <property name="username" column="username"/>
+    	<property name="password" column="password"/>
+    	<property name="sex" column="sex"/>
+    	<property name="name" column="name"/>
+    	<property name="address" column="address"/>
+    	
+    	<set name="setProduct" inverse="true" batch-size="20" lazy="false">
+ 			<key column="uid"></key>
+ 			<one-to-many class="com.sdu.entity.Product"></one-to-many>
+ 		</set>
+ 		
+ 		<set name="setShoppingCar" inverse="true" batch-size="20" lazy="false">
+ 			<key column="userId"></key>
+ 			<one-to-many class="com.sdu.entity.ShoppingCar"></one-to-many>
+ 		</set>
+ 		
+ 		<set name="setOrder" inverse="true" batch-size="20" lazy="false">
+            <key column="buyId"/>
+            <one-to-many class="com.sdu.entity.Order"/>
+        </set>
+        
+        <set name="setOrderSaler" inverse="true" batch-size="20" lazy="false">
+            <key column="salerId"/>
+            <one-to-many class="com.sdu.entity.Order"/>
+        </set>
+    </class>
+</hibernate-mapping>
